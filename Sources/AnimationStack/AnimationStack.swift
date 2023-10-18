@@ -11,7 +11,7 @@ public struct AnimationStack: View {
     
     let delay: Double
     
-    public init<V0: View>(opacity: Bool = true, offSetX: CGFloat = 0, offSetY: CGFloat = 100, rotation: Double = 0, scale: Double = 1, delay: Double = 0.1, animation: Animation = .spring.speed(0.7), @ViewBuilder content: @escaping () -> TupleView<(V0)>) {
+    public init<V0: View>(opacity: Bool = true, offSetX: CGFloat = 0, offSetY: CGFloat = 0, rotation: Double = 0, scale: Double = 1, delay: Double = 0.1, animation: Animation = .spring.speed(0.7), @ViewBuilder content: @escaping () -> TupleView<(V0)>) {
         let cv = content().value
         self.views = [AnyView(cv)]
         animations = [false]
@@ -24,7 +24,7 @@ public struct AnimationStack: View {
         self.animation = animation
     }
     
-    public init<Views>(opacity: Bool = true, offSetX: CGFloat = 0, offSetY: CGFloat = 100, rotation: Double = 0, scale: Double = 1, delay: Double = 0.1, animation: Animation = .spring.speed(0.7), @ViewBuilder content: @escaping () -> TupleView<Views>) {
+    public init<Views>(opacity: Bool = true, offSetX: CGFloat = 0, offSetY: CGFloat = 0, rotation: Double = 0, scale: Double = 1, delay: Double = 0.1, animation: Animation = .spring.speed(0.7), @ViewBuilder content: @escaping () -> TupleView<Views>) {
         views = content().getViews
         var bools = [Bool]()
         if views.count == 0 {
@@ -42,6 +42,26 @@ public struct AnimationStack: View {
         self.scale = scale
         self.delay = delay
         self.animation = animation
+    }
+    
+    public init<Views>(@ViewBuilder content: @escaping () -> TupleView<Views>) {
+        views = content().getViews
+        var bools = [Bool]()
+        if views.count == 0 {
+            bools.append(false)
+        }else {
+            for _ in views {
+                bools.append(false)
+            }
+        }
+        self.animations = bools
+        self.opacity = true
+        self.offSetX = 0
+        self.offSetY = 0
+        self.rotation = 0
+        self.scale = 1
+        self.delay = 0.1
+        self.animation = .spring.speed(0.7)
     }
     
     @State private var index = 0
