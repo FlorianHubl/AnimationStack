@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-@available(iOS 14.0, macOS 11, tvOS 13.0, watchOS 6.0, *)
+@available(iOS 17.0, macOS 11, tvOS 13.0, watchOS 6.0, *)
 public struct ForEachAnimation<Data, Content>: View where Data : Hashable, Content : View {
     let data: [Data]
     private let content: (Data) -> Content
